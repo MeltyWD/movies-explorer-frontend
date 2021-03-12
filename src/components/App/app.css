@@ -1,0 +1,24 @@
+.title {
+  font-weight: normal;
+  font-size: 1.71875vw;
+  line-height: 122%;
+  letter-spacing: -0.04em;
+
+  width: 100%;
+  margin: 0;
+  padding-bottom: 1.71875vw;
+  border-bottom: 0.078125vw #DADADA solid;
+}
+@media (max-width: 800px) {
+  .title {
+    font-size: 22px;
+    padding-bottom: 23px;
+    border-bottom: 1px #DADADA solid;
+  }
+}
+@media (max-width: 500px) {
+  .title {
+    font-size: 18px;
+    padding-bottom: 28px;
+  }
+}

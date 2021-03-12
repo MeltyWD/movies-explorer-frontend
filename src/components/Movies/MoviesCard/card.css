@@ -1,0 +1,111 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card__image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.card__text-box {
+  padding-top: 0.78125vw;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 0.078125vw solid #424242;
+}
+
+.card__text {
+  padding: 0.3125vw 0 1.015625vw;
+  width: 83%;
+  font-weight: 500;
+  font-size: 1.015625vw;
+  line-height: 123%;
+}
+
+.card__like-container {
+  cursor: pointer;
+  width: 1.875vw;
+  height: 1.875vw;
+  margin-bottom: 1.953125vw;
+  background-color: #313131;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__like {
+  width: 0.78125vw;
+  height: 0.703125vw;
+  transition: transform .1s;
+}
+
+.card__delete {
+  width: 0.78125vw;
+  height: 0.703125vw;
+}
+
+.card__like::selection {
+  background-color: transparent;
+}
+
+.card__like_active {
+  width: 1.015625vw;
+  height: 0.8789063vw;
+  transform: scale(.8);
+  transition: transform .3s;
+  filter: invert(37%) sepia(96%) saturate(4858%) hue-rotate(328deg) brightness(100%) contrast(87%);
+}
+
+.card__duration {
+  padding-top: 0.46875vw;
+  font-weight: normal;
+  font-size: 0.859375vw;
+  line-height: 118%;
+  color: #8B8B8B;
+}
+
+@media (max-width: 800px) {
+  .card__text-box {
+    padding-top: 10px;
+    border-bottom: 1px solid #424242;
+  }
+  .card__text {
+    font-size: 13px;
+    padding: 4px 0 13px;
+  }
+  .card__like-container {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 25px;
+  }
+  .card__like {
+    width: 10px;
+    height: 9px;
+  }
+  .card__delete{
+    width: 9px;
+    height: 9px;
+  }
+  .card__like_active {
+    width: 14px;
+    height: 12px;
+  }
+  .card__duration {
+    padding-top: 6px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 500px) {
+  .card__text {
+    font-size: 12px;
+  }
+  .card__duration {
+    font-size: 10px;
+  }
+}
