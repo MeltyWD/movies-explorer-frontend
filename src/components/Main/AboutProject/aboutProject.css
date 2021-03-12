@@ -1,0 +1,116 @@
+.aboutProject {
+  height: 100vh;
+  width: 100%;
+  background-color: #202020;
+  padding: 8.59375vw  5.46875vw;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutProject__textbox {
+  display: grid;
+  grid-template-columns: repeat(2, 42.96875vw);
+  gap: 3.125vw;
+  box-sizing: border-box;
+  padding: 5.46875vw 0 8.59375vw;
+}
+
+.aboutProject__textbox-title {
+  font-weight: normal;
+  font-size: 1.5625vw;
+  line-height: 120%;
+  letter-spacing: -0.04em;
+  margin: 0;
+  padding-bottom: 2.03125vw;
+}
+
+.aboutProject__text {
+  font-weight: normal;
+  font-size: 1.09375vw;
+  line-height: 143%;
+}
+
+.aboutProject__grid {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 2.8125vw;
+}
+
+.aboutProject__grid-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #303030;
+  font-weight: normal;
+  font-size: 1.09375vw;
+  line-height: 121%;
+  border-radius: 0.234375vw;
+}
+
+.aboutProject__grid-element_green {
+  background-color: #3DDC84;
+  color: #000;
+}
+
+.aboutProject__grid_text {
+  font-weight: normal;
+  font-size: 1.09375vw;
+  line-height: 121%;
+  text-align: center;
+  color: #8B8B8B;
+  padding-top: 1.09375vw;
+}
+
+@media (max-width: 800px) {
+  .aboutProject {
+    padding: 90px 50px;
+  }
+  .aboutProject__textbox {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 70px 0 93px;
+  }
+  .aboutProject__textbox-title {
+    font-size: 20px;
+    padding-bottom: 22px;
+  }
+  .aboutProject__text {
+    font-size: 12px;
+  }
+  .aboutProject__grid {
+    grid-template-rows: 36px;
+  }
+  .aboutProject__grid-element {
+    font-size: 14px;
+    border-radius: 3px;
+  }
+  .aboutProject__grid_text {
+    font-size: 14px;
+    padding-top: 14px;
+  }
+}
+@media (max-width: 500px) {
+  .aboutProject {
+    padding: 70px 18px;
+  }
+  .aboutProject__textbox {
+    padding: 60px 0;
+    gap: 56px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .aboutProject__textbox-title {
+    padding-bottom: 16px;
+    font-size: 18px;
+  }
+  .aboutProject__text {
+    font-size: 11px;
+  }
+  .aboutProject__grid {
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 35px;
+  }
+  .aboutProject__grid-element {
+    font-size: 11px;
+  }
+}

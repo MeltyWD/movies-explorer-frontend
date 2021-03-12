@@ -1,0 +1,141 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  padding: 11.5625vw 33.984375vw 5.46875vw;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.profile__title {
+  margin: 0;
+  text-align: center;
+  padding-bottom: 9.609375vw;
+  font-weight: 500;
+  font-size: 1.875vw;
+  line-height: 120%;
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.profile__fieldset {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
+.profile__label {
+  font-weight: 500;
+  font-size: 0.859375vw;
+  line-height: 118%;
+  color: #FFFFFF;
+  padding-right: 0.859375vw;
+}
+
+.profile__input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  text-align: right;
+  width: 100%;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  -webkit-text-fill-color: #fff;
+  transition: background-color 5000s;
+  font-weight: normal;
+  font-size: 0.859375vw;
+  line-height: 118%;
+}
+
+.profile__error {
+  visibility: hidden;
+  min-height: 1.171875vw;
+  font-weight: normal;
+  font-size: 0.78125vw;
+  line-height: 120%;
+  color: #EE3465;
+  padding-top: 0.390625vw;
+  text-align: right;
+}
+
+.profile__error_active {
+  visibility: visible;
+}
+
+.profile__hr {
+  margin: 0;
+  padding: 0 0 1.328125vw;
+  width: 100%;
+  border-top: solid 1px #424242;
+}
+
+.profile__button {
+  margin-top: auto;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: normal;
+  font-size: 1.015625vw;
+  line-height: 123%;
+}
+
+.profile__logout {
+  font-weight: 500;
+  font-size: 1.015625vw;
+  line-height: 123%;
+  text-align: center;
+  color: #EE3465;
+  margin-top: 1.25vw;
+  text-decoration: none;
+}
+
+@media (max-width: 800px) {
+  .profile {
+    margin: auto;
+    padding: 147px 30px 40px;
+    max-width: 410px;
+    width: 100%;
+  }
+  .profile__title {
+    padding-bottom: 96px;
+    font-size: 24px;
+  }
+  .profile__label {
+    font-size: 11px;
+    padding-right: 11px;
+  }
+  .profile__input {
+    font-size: 11px;
+  }
+  .profile__error {
+    min-height: 12px;
+    font-size: 10px;
+  }
+  .profile__hr {
+    padding: 0 0 12px;
+  }
+  .profile__button {
+    font-size: 13px;
+  }
+  .profile__logout {
+    font-size: 13px;
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 500px) {
+  .profile__button {
+    font-size: 12px;
+  }
+  .profile__logout {
+    font-size: 12px;
+  }
+}
