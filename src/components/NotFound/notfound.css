@@ -29,6 +29,7 @@
   text-align: center;
   color: #4285F4;
   margin-bottom: 4.6875vw;
+  text-decoration: none;
 }
 
 @media (max-width: 800px) {
