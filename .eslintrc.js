@@ -12,8 +12,9 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'no-underscore-dangle': 0,
     'react/prop-types': 0,
     'linebreak-style': 0,
+    'class-methods-use-this': 0,
   },
 };

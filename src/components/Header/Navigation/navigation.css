@@ -8,6 +8,16 @@
   line-height: 18px;
   color: #fff;
   text-decoration: none;
+
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: color .2s, background-size .3s;
+}
+
+.navigation__link:hover {
+  background-size: 100% 2px;
 }
 
 .navigation__link:not(:last-child) {
@@ -16,6 +26,7 @@
 
 .navigation__link_active {
   font-weight: 500;
+  background-size: 100% 2px;
 }
 
 .navigation__account {
@@ -69,18 +80,6 @@
     font-size: 18px;
     margin-bottom: 22px;
     padding-bottom: 6px;
-
-    background-image: linear-gradient(currentColor, currentColor);
-    background-position: 0% 100%;
-    background-repeat: no-repeat;
-    background-size: 0% 2px;
-    transition: color .2s, background-size .3s;
-  }
-  .navigation__link:hover {
-    background-size: 100% 2px;
-  }
-  .navigation__link_active {
-    background-size: 100% 2px;
   }
 }
 

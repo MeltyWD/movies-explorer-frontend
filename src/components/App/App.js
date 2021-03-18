@@ -1,7 +1,7 @@
 import React from 'react';
 import './app.css';
 import {
-  Route, Switch, Redirect, withRouter, useHistory, useRouteMatch,
+  Route, Switch, Redirect, withRouter, useRouteMatch,
 } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -13,27 +13,96 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../Movies/SavedMovies/SavedMovies';
 import NotFound from '../NotFound/NotFound';
 import logo from '../../images/logo.svg';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
+import MovieContext from '../../contexts/MovieContext';
+import Preloader from '../Preloader/Preloader';
+import InfoTooltip from '../InfoToolTip/InfoTooltip';
+import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
-  const [loginIn, setLoginIn] = React.useState(false);
-  const [currentUser, setCurrentUser] = React.useState({
-    name: 'Имя',
-    email: 'email',
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const [infoToolsTipText, setInfoToolsTipText] = React.useState({
+    text: 'Что-то пошло не так! Попробуйте ещё раз.',
+    status: false,
   });
-  const history = useHistory();
+  const [savedMovieList, setSavedMovieList] = React.useState([]);
+  const [movieList, setMovieList] = React.useState([]);
+  const [initialization, setInitialization] = React.useState(false);
 
-  function authorize(data) {
-    console.log(data);
-    setCurrentUser({
-      name: 'Имя',
-      email: data.email,
-    });
-    setLoginIn(true);
-    history.push('/movies');
+  function handleFail(message, res) {
+    if (res === true) {
+      setInfoToolsTipText({
+        text: message.message,
+        status: true,
+      });
+    } else {
+      setInfoToolsTipText({
+        text: message.message,
+        status: false,
+      });
+    }
+    setIsInfoTooltipOpen(true);
+  }
+
+  function checkToken() {
+    if (localStorage.getItem('logginIn')) {
+    // проверяем токен пользователя
+      mainApi.checkToken().then((res) => {
+        if (res._id) {
+          setCurrentUser(res);
+          setLoggedIn(true);
+        } else {
+          handleFail(res);
+        }
+        setInitialization(true);
+      }).catch((err) => handleFail(err));
+    } else {
+      setInitialization(true);
+    }
+  }
+
+  React.useEffect(() => {
+    if (loggedIn === true) {
+      Promise.all([
+        mainApi.getSavedMovies(),
+        moviesApi.getInitialMovies(),
+      ])
+        .then(([savedMoviesList, moviesList]) => {
+          setSavedMovieList(savedMoviesList);
+          setMovieList(moviesList);
+        })
+        .catch((err) => handleFail(err));
+    } else {
+      checkToken();
+    }
+  }, [loggedIn]);
+
+  function handleUpdateUser(data) {
+    return (
+      mainApi.patchProfileEdit(data)
+        .then((result) => {
+          setCurrentUser(result);
+          const message = { message: 'Изменение данных прошло успешно' };
+          handleFail(message, true);
+        })
+        .catch((err) => handleFail(err))
+    );
   }
 
   function logout() {
-    setLoginIn(false);
+    mainApi.logout()
+      .then(() => {
+        localStorage.removeItem('logginIn');
+        setLoggedIn(false);
+      });
+  }
+
+  function infotooltipclose() {
+    setIsInfoTooltipOpen(false);
   }
 
   const routesPathsHeaderArray = [
@@ -52,41 +121,82 @@ function App() {
   return (
     <>
       {useRouteMatch(routesPathsHeaderArray) ? null : <Header
-        loginIn={loginIn}
+        loginIn={loggedIn}
         logo={logo}
       /> }
-      <Switch>
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route exact path="/movies">
-          <Movies />
-        </Route>
-        <Route exact path="/saved-movies">
-          <SavedMovies />
-        </Route>
-        <Route exact path="/signin">
-          <Login
-            logo={logo}
-            login={authorize}
+      {
+        !initialization
+          ? <Preloader />
+          : <>
+          <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+          <MovieContext.Provider value={{
+            handleFail,
+            movieList,
+            savedMovieList,
+            setSavedMovieList,
+          }}>
+          <Switch>
+            <Route exact path="/">
+              <Main />
+            </Route>
+            <ProtectedRoute
+              exact
+              path="/movies"
+              loggedIn={loggedIn}
+              component={Movies}
             />
-        </Route>
-        <Route exact path="/signup">
-          <Registration
-            logo={logo}
-            login={authorize}
-          />
-        </Route>
-        <Route exact path="/profile">
-          <Profile currentUser={currentUser} logout={logout} />
-        </Route>
-        <Route exact path="/404">
-          <NotFound />
-        </Route>
-        <Route exact path="*">
-          <Redirect to="/404" />
-        </Route>
-      </Switch>
+            <ProtectedRoute
+              exact
+              path="/saved-movies"
+              loggedIn={loggedIn}
+              component={SavedMovies}
+            />
+            <Route exact path="/signin">
+              {
+                loggedIn
+                  ? <Redirect to="/movies" />
+                  : <Login
+                    logo={logo}
+                    login={checkToken}
+                    onFail={handleFail}
+                  />
+              }
+            </Route>
+            <Route exact path="/signup">
+            {
+                loggedIn
+                  ? <Redirect to="/movies" />
+                  : <Registration
+                  logo={logo}
+                  login={checkToken}
+                  onFail={handleFail}
+                />
+            }
+            </Route>
+            <ProtectedRoute
+              exact
+              path="/profile"
+              loggedIn={loggedIn}
+              component={Profile}
+              logout={logout}
+              patch={handleUpdateUser}
+            />
+            <Route exact path="/404">
+              <NotFound />
+            </Route>
+            <Route exact path="*">
+              <Redirect to="/404" />
+            </Route>
+          </Switch>
+          </MovieContext.Provider>
+          </CurrentUserContext.Provider>
+        </>
+      }
+      <InfoTooltip
+        isOpen={isInfoTooltipOpen}
+        onClose={infotooltipclose}
+        infoContent={infoToolsTipText}
+      />
       {useRouteMatch(routesPathsFooterArray) ? null : <Footer />}
     </>
   );

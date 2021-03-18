@@ -4,6 +4,8 @@ import './form.css';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import mainApi from '../../utils/MainApi';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Login(props) {
   const validationSchema = yup.object().shape({
@@ -14,6 +16,8 @@ function Login(props) {
       .required('Обязательное поле')
       .min(8, 'Минимум 8 символов'),
   });
+
+  const { setCurrentUser } = React.useContext(CurrentUserContext);
 
   return (
     <section className="auth">
@@ -26,7 +30,16 @@ function Login(props) {
         }}
         validateOnBlur
         onSubmit={(values) => {
-          props.login(values);
+          mainApi.authorize(values)
+            .then((res) => {
+              localStorage.setItem('logginIn', 'true');
+              setCurrentUser({
+                name: res.name,
+                email: res.email,
+              });
+              props.login();
+            })
+            .catch((err) => props.onFail(err));
         } }
         validationSchema={validationSchema}
       >

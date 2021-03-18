@@ -32,25 +32,43 @@ function Navigation() {
       </div>
       <div onClick={handleClickMenu} className={overlayClass}></div>
       <nav className={navigationClass}>
-        <NavLink exact to="/" onClick={handleClickMenu} activeClassName="navigation__link_active" className="navigation__link navigation__link_main">Главная</NavLink>
-        <NavLink to="/movies" onClick={handleClickMenu} activeClassName="navigation__link_active" className="navigation__link">Фильмы</NavLink>
-        <NavLink to="/saved-movies" onClick={handleClickMenu} activeClassName="navigation__link_active" className="navigation__link">Сохранённые фильмы</NavLink>
-        <Link onClick={handleClickMenu} className="navigation__account navigation__account_menu" to="/profile">
+        <NavLink
+          exact
+          to="/"
+          onClick={handleClickMenu}
+          activeClassName="navigation__link_active"
+          className="navigation__link navigation__link_main"
+        >
+          Главная
+        </NavLink>
+        <NavLink
+          to="/movies"
+          onClick={handleClickMenu}
+          activeClassName="navigation__link_active"
+          className="navigation__link"
+        >
+          Фильмы
+        </NavLink>
+        <NavLink
+          to="/saved-movies"
+          onClick={handleClickMenu}
+          activeClassName="navigation__link_active"
+          className="navigation__link"
+        >
+          Сохранённые фильмы
+        </NavLink>
+        <Link
+          onClick={handleClickMenu}
+          className="navigation__account navigation__account_menu"
+          to="/profile"
+        >
           Аккаунт
-          <img
-            className="header__icon"
-            src={profileIcon}
-            alt="profile-logo"
-          />
+          <img className="header__icon" src={profileIcon} alt="profile-logo" />
         </Link>
       </nav>
       <Link className="navigation__account" to="/profile">
         Аккаунт
-        <img
-          className="header__icon"
-          src={profileIcon}
-          alt="profile-logo"
-        />
+        <img className="header__icon" src={profileIcon} alt="profile-logo" />
       </Link>
     </>
   );

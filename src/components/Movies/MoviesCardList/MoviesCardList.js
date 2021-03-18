@@ -32,10 +32,10 @@ function MoviesCardList(props) {
   return (
     <>
       <div className="movies__card-list">
-        {props.movieList.slice(0, currentMovieCount).map((movie, index) => (
+        {props.movieList.slice(0, currentMovieCount).map((movie) => (
             <Component
               data={movie}
-              key={index}
+              key={movie.id || movie.movieId}
             />
         ))}
       </div>

@@ -3,6 +3,7 @@ import './profile.css';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Profile(props) {
   const validationSchema = yup.object().shape({
@@ -12,18 +13,21 @@ function Profile(props) {
       .email('Неверный формат email')
       .required('Обязательное поле'),
   });
+  const { currentUser } = React.useContext(CurrentUserContext);
 
   return (
     <section className="profile">
-      <h1 className="profile__title">Привет, {props.currentUser.name}</h1>
+      <h1 className="profile__title">Привет, {currentUser.name}</h1>
       <Formik
+        enableReinitialize
         initialValues={{
-          name: props.currentUser.name,
-          email: props.currentUser.email,
+          name: currentUser.name,
+          email: currentUser.email,
         }}
         validateOnBlur
         onSubmit={(values) => {
-          props.login(values);
+          props.patch(values);
+          console.log('ok');
         } }
         validationSchema={validationSchema}
       >
