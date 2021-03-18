@@ -60,7 +60,7 @@ function MoviesCard(props) {
 
   return (
     <div className="card">
-      <img className="card__image" src={imageUrlFix()} alt={`фото ${props.data.nameRU}`} />
+      <a href={props.data.trailerLink} rel="noreferrer" target='_blank'><img className="card__image" src={imageUrlFix()} alt={`фото ${props.data.nameRU}`} /></a>
       <div className="card__text-box">
         <p className="card__text">{props.data.nameRU}</p>
         <div className="card__like-container" onClick={likeClick}>
