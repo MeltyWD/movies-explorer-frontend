@@ -108,6 +108,6 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: 'http://localhost:3001/api/',
+  baseUrl: 'https://api.meltyb.students.nomoredomains.icu/api/',
 });
 export default mainApi;

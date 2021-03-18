@@ -27,7 +27,6 @@ function Profile(props) {
         validateOnBlur
         onSubmit={(values) => {
           props.patch(values);
-          console.log('ok');
         } }
         validationSchema={validationSchema}
       >

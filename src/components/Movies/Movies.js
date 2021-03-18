@@ -9,7 +9,7 @@ import Preloader from '../Preloader/Preloader';
 function Movie() {
   const [currentMovieList, setCurrentMovieList] = React.useState([]);
   const [checked, setChecked] = React.useState(true);
-  const { movieList } = React.useContext(MovieContext);
+  const { movieList, initializationMovie } = React.useContext(MovieContext);
 
   React.useEffect(() => {
     setCurrentMovieList(movieList);
@@ -37,7 +37,7 @@ function Movie() {
         setChecked={setChecked}
       />
       {
-        movieList.length === 0
+        !initializationMovie
           ? <Preloader />
           : <>{
             checkboxFilter(currentMovieList).length === 0

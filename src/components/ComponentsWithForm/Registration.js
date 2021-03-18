@@ -118,7 +118,7 @@ function Registration(props) {
               disabled={!isValid || !dirty}
               onClick={handleSubmit}
               type="submit"
-            >Войти</button>
+            >Зарегистрироваться</button>
           </form>
         )}
       </Formik>

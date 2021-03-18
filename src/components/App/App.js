@@ -32,6 +32,7 @@ function App() {
   const [savedMovieList, setSavedMovieList] = React.useState([]);
   const [movieList, setMovieList] = React.useState([]);
   const [initialization, setInitialization] = React.useState(false);
+  const [initializationMovie, setInitializationMovie] = React.useState(false);
 
   function handleFail(message, res) {
     if (res === true) {
@@ -74,6 +75,9 @@ function App() {
         .then(([savedMoviesList, moviesList]) => {
           setSavedMovieList(savedMoviesList);
           setMovieList(moviesList);
+        })
+        .then(() => {
+          setInitializationMovie(true);
         })
         .catch((err) => handleFail(err));
     } else {
@@ -134,6 +138,7 @@ function App() {
             movieList,
             savedMovieList,
             setSavedMovieList,
+            initializationMovie,
           }}>
           <Switch>
             <Route exact path="/">

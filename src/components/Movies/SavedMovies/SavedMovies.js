@@ -7,7 +7,7 @@ import MovieContext from '../../../contexts/MovieContext';
 import Preloader from '../../Preloader/Preloader';
 
 function SavedMovies() {
-  const { savedMovieList } = React.useContext(MovieContext);
+  const { savedMovieList, initializationMovie } = React.useContext(MovieContext);
   const [checked, setChecked] = React.useState(true);
   const [currentMovieList, setCurrentMovieList] = React.useState(savedMovieList);
 
@@ -37,7 +37,7 @@ function SavedMovies() {
         setChecked={setChecked}
       />
       {
-        checkboxFilter(savedMovieList).length === 0
+        !initializationMovie
           ? <Preloader />
           : <>{
             currentMovieList.length === 0
