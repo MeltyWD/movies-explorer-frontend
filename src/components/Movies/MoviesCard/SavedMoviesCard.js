@@ -12,6 +12,9 @@ function SavedMoviesCard(props) {
     mainApi.postDeleteSavedMovies({ movieId: props.data.movieId })
       .then((res) => {
         setSavedMovieList(savedMovieList.filter((item) => item.movieId !== res.movieId));
+        localStorage.setItem('savedMovieList', JSON.stringify(
+          savedMovieList.filter((item) => item.movieId !== res.movieId),
+        ));
       });
   }
 

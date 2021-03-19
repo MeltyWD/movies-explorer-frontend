@@ -32,7 +32,7 @@ function Registration(props) {
           name: '',
         }}
         validateOnBlur
-        onSubmit={(values) => {
+        onSubmit={(values, onSubmitProps) => {
           mainApi.register(values)
             .then((res) => {
               localStorage.setItem('logginIn', 'true');
@@ -42,12 +42,21 @@ function Registration(props) {
               });
               props.login(res);
             })
-            .catch((err) => props.onFail(err));
+            .catch((err) => props.onFail(err))
+            .finally(() => onSubmitProps.setSubmitting(false));
         } }
         validationSchema={validationSchema}
       >
         {({
-          values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty,
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          isValid,
+          handleSubmit,
+          dirty,
+          isSubmitting,
         }) => (
           <form className="form">
             <label
@@ -63,6 +72,7 @@ function Registration(props) {
               value={values.name}
               id="name"
               placeholder="Введите имя"
+              disabled={isSubmitting}
             />
             {
               <p className={`form__error
@@ -84,6 +94,7 @@ function Registration(props) {
               value={values.email}
               id="email"
               placeholder="Введите e-mail"
+              disabled={isSubmitting}
             />
             {
               <p className={`form__error
@@ -105,6 +116,7 @@ function Registration(props) {
               value={values.password}
               id="password"
               placeholder="Введите пароль"
+              disabled={isSubmitting}
             />
             {
               <p className={`form__error
@@ -115,7 +127,7 @@ function Registration(props) {
             }
             <button
               className="form__button"
-              disabled={!isValid || !dirty}
+              disabled={!isValid || !dirty || isSubmitting}
               onClick={handleSubmit}
               type="submit"
             >Зарегистрироваться</button>

@@ -33,6 +33,7 @@ function App() {
   const [movieList, setMovieList] = React.useState([]);
   const [initialization, setInitialization] = React.useState(false);
   const [initializationMovie, setInitializationMovie] = React.useState(false);
+  const [initializationSavedMovie, setInitializationSavedMovie] = React.useState(false);
 
   function handleFail(message, res) {
     if (res === true) {
@@ -66,20 +67,34 @@ function App() {
     }
   }
 
+  function initialAuth() {
+    mainApi.getSavedMovies()
+      .then((savedMoviesList) => {
+        setSavedMovieList(savedMoviesList);
+        localStorage.setItem('savedMovieList', JSON.stringify(savedMoviesList));
+        setInitializationSavedMovie(true);
+        setLoggedIn(true);
+      })
+      .catch((err) => handleFail(err));
+    moviesApi.getInitialMovies()
+      .then((moviesList) => {
+        setMovieList(moviesList);
+        localStorage.setItem('movieList', JSON.stringify(moviesList));
+        setInitializationMovie(true);
+      })
+      .catch((err) => handleFail(err));
+  }
+
   React.useEffect(() => {
     if (loggedIn === true) {
-      Promise.all([
-        mainApi.getSavedMovies(),
-        moviesApi.getInitialMovies(),
-      ])
-        .then(([savedMoviesList, moviesList]) => {
-          setSavedMovieList(savedMoviesList);
-          setMovieList(moviesList);
-        })
-        .then(() => {
-          setInitializationMovie(true);
-        })
-        .catch((err) => handleFail(err));
+      if (localStorage.getItem('savedMovieList')) {
+        setSavedMovieList(JSON.parse(localStorage.getItem('savedMovieList')));
+      }
+      if (localStorage.getItem('movieList')) {
+        setMovieList(JSON.parse(localStorage.getItem('movieList')));
+      }
+      setInitializationSavedMovie(true);
+      setInitializationMovie(true);
     } else {
       checkToken();
     }
@@ -101,6 +116,8 @@ function App() {
     mainApi.logout()
       .then(() => {
         localStorage.removeItem('logginIn');
+        localStorage.removeItem('savedMovieList');
+        localStorage.removeItem('movieList');
         setLoggedIn(false);
       });
   }
@@ -139,6 +156,7 @@ function App() {
             savedMovieList,
             setSavedMovieList,
             initializationMovie,
+            initializationSavedMovie,
           }}>
           <Switch>
             <Route exact path="/">
@@ -162,7 +180,7 @@ function App() {
                   ? <Redirect to="/movies" />
                   : <Login
                     logo={logo}
-                    login={checkToken}
+                    login={initialAuth}
                     onFail={handleFail}
                   />
               }
@@ -173,7 +191,7 @@ function App() {
                   ? <Redirect to="/movies" />
                   : <Registration
                   logo={logo}
-                  login={checkToken}
+                  login={initialAuth}
                   onFail={handleFail}
                 />
             }

@@ -34,12 +34,16 @@ function MoviesCard(props) {
       })
         .then((res) => {
           setSavedMovieList(savedMovieList.concat(res));
+          localStorage.setItem('savedMovieList', JSON.stringify(savedMovieList.concat(res)));
         })
         .catch((err) => handleFail(err));
     } else {
       mainApi.postDeleteSavedMovies({ movieId: props.data.id })
         .then((res) => {
           setSavedMovieList(savedMovieList.filter((item) => item.movieId !== res.movieId));
+          localStorage.setItem('savedMovieList', JSON.stringify(
+            savedMovieList.filter((item) => item.movieId !== res.movieId),
+          ));
         });
     }
   }

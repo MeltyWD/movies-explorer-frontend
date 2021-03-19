@@ -5,9 +5,10 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SavedMoviesCard from '../MoviesCard/SavedMoviesCard';
 import MovieContext from '../../../contexts/MovieContext';
 import Preloader from '../../Preloader/Preloader';
+import { shortFilmDuration } from '../../../utils/constants';
 
 function SavedMovies() {
-  const { savedMovieList, initializationMovie } = React.useContext(MovieContext);
+  const { savedMovieList, initializationSavedMovie } = React.useContext(MovieContext);
   const [checked, setChecked] = React.useState(true);
   const [currentMovieList, setCurrentMovieList] = React.useState(savedMovieList);
 
@@ -23,7 +24,7 @@ function SavedMovies() {
 
   function checkboxFilter(movies) {
     if (!checked) {
-      return movies.filter((movie) => movie.duration > 40);
+      return movies.filter((movie) => movie.duration > shortFilmDuration);
     }
     return movies;
   }
@@ -37,7 +38,7 @@ function SavedMovies() {
         setChecked={setChecked}
       />
       {
-        !initializationMovie
+        !initializationSavedMovie
           ? <Preloader />
           : <>{
             currentMovieList.length === 0

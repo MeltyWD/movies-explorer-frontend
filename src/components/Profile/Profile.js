@@ -25,13 +25,22 @@ function Profile(props) {
           email: currentUser.email,
         }}
         validateOnBlur
-        onSubmit={(values) => {
-          props.patch(values);
+        onSubmit={(values, onSubmitProps) => {
+          props.patch(values)
+            .finally(() => onSubmitProps.setSubmitting(false));
         } }
         validationSchema={validationSchema}
       >
         {({
-          values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty,
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          isValid,
+          handleSubmit,
+          dirty,
+          isSubmitting,
         }) => (
           <form className="profile__form">
             <fieldset className="profile__fieldset">
@@ -47,6 +56,7 @@ function Profile(props) {
                 onBlur={handleBlur}
                 value={values.name}
                 id="name"
+                disabled={isSubmitting}
               />
             </fieldset>
             {
@@ -70,6 +80,7 @@ function Profile(props) {
                 onBlur={handleBlur}
                 value={values.email}
                 id="email"
+                disabled={isSubmitting}
               />
             </fieldset>
             {
@@ -81,7 +92,7 @@ function Profile(props) {
             }
             <button
               className="profile__button"
-              disabled={!isValid || !dirty}
+              disabled={!isValid || !dirty || isSubmitting}
               onClick={handleSubmit}
               type="submit"
             >Редактировать</button>

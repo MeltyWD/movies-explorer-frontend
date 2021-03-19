@@ -5,6 +5,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import MoviesCard from './MoviesCard/MoviesCard';
 import MovieContext from '../../contexts/MovieContext';
 import Preloader from '../Preloader/Preloader';
+import { shortFilmDuration } from '../../utils/constants';
 
 function Movie() {
   const [currentMovieList, setCurrentMovieList] = React.useState([]);
@@ -23,7 +24,7 @@ function Movie() {
 
   function checkboxFilter(movies) {
     if (!checked) {
-      return movies.filter((movie) => movie.duration > 40);
+      return movies.filter((movie) => movie.duration > shortFilmDuration);
     }
     return movies;
   }

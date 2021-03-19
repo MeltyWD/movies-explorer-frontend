@@ -4,9 +4,9 @@
 
 ## Описание:
 
-REST API [Дипломной работы](https://github.com/MeltyWD/movies-explorer-api).
+Бекэнд [Дипломной работы](https://github.com/MeltyWD/movies-explorer-api).
 
-Страница дипломной работы - [https://meltyb.students.nomoredomains.icu/api/](https://meltyb.students.nomoredomains.icu/api/) 
+Страница дипломной работы - [https://meltyb.students.nomoredomains.icu/](https://meltyb.students.nomoredomains.icu/)
 Публичный IP адресс - 130.193.40.106
 
 ## Инструкция по установке:
@@ -17,13 +17,13 @@ REST API [Дипломной работы](https://github.com/MeltyWD/movies-exp
 
 В директории проекта запустить приложение в режиме разработки:
 
-* `npm install` - устанавливает зависимости; 
+* `npm install` - устанавливает зависимости;
 * `npm run start` - запускает сервер с hot-reload;
 
-## База данных: 
+## База данных:
 
 * MongoDB (сопоставитель Mongoose)
 
 ## Чеклист дипломной работы:
 
-* [Чеклист](https://code.s3.yandex.net/web-developer/static/new-program/web-diploma-criteria-2.0/index.html) 
+* [Чеклист](https://code.s3.yandex.net/web-developer/static/new-program/web-diploma-criteria-2.0/index.html)

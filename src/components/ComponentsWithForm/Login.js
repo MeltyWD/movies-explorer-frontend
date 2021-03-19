@@ -29,7 +29,7 @@ function Login(props) {
           password: '',
         }}
         validateOnBlur
-        onSubmit={(values) => {
+        onSubmit={(values, onSubmitProps) => {
           mainApi.authorize(values)
             .then((res) => {
               localStorage.setItem('logginIn', 'true');
@@ -39,12 +39,21 @@ function Login(props) {
               });
               props.login();
             })
-            .catch((err) => props.onFail(err));
+            .catch((err) => props.onFail(err))
+            .finally(() => onSubmitProps.setSubmitting(false));
         } }
         validationSchema={validationSchema}
       >
         {({
-          values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty,
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          isValid,
+          handleSubmit,
+          dirty,
+          isSubmitting,
         }) => (
           <form className="form">
             <label
@@ -60,6 +69,7 @@ function Login(props) {
               value={values.email}
               id="email"
               placeholder="Введите e-mail"
+              disabled={isSubmitting}
             />
             {
               <p className={`form__error
@@ -81,6 +91,7 @@ function Login(props) {
               value={values.password}
               id="password"
               placeholder="Введите пароль"
+              disabled={isSubmitting}
             />
             {
               <p className={`form__error
@@ -91,7 +102,7 @@ function Login(props) {
             }
             <button
               className="form__button"
-              disabled={!isValid || !dirty}
+              disabled={!isValid || !dirty || isSubmitting}
               onClick={handleSubmit}
               type="submit"
             >Войти</button>
