@@ -3,6 +3,7 @@ import './profile.css';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Profile(props) {
   const validationSchema = yup.object().shape({
@@ -12,23 +13,34 @@ function Profile(props) {
       .email('Неверный формат email')
       .required('Обязательное поле'),
   });
+  const { currentUser } = React.useContext(CurrentUserContext);
 
   return (
     <section className="profile">
-      <h1 className="profile__title">Привет, {props.currentUser.name}</h1>
+      <h1 className="profile__title">Привет, {currentUser.name}</h1>
       <Formik
+        enableReinitialize
         initialValues={{
-          name: props.currentUser.name,
-          email: props.currentUser.email,
+          name: currentUser.name,
+          email: currentUser.email,
         }}
         validateOnBlur
-        onSubmit={(values) => {
-          props.login(values);
+        onSubmit={(values, onSubmitProps) => {
+          props.patch(values)
+            .finally(() => onSubmitProps.setSubmitting(false));
         } }
         validationSchema={validationSchema}
       >
         {({
-          values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty,
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          isValid,
+          handleSubmit,
+          dirty,
+          isSubmitting,
         }) => (
           <form className="profile__form">
             <fieldset className="profile__fieldset">
@@ -44,6 +56,7 @@ function Profile(props) {
                 onBlur={handleBlur}
                 value={values.name}
                 id="name"
+                disabled={isSubmitting}
               />
             </fieldset>
             {
@@ -67,6 +80,7 @@ function Profile(props) {
                 onBlur={handleBlur}
                 value={values.email}
                 id="email"
+                disabled={isSubmitting}
               />
             </fieldset>
             {
@@ -78,7 +92,7 @@ function Profile(props) {
             }
             <button
               className="profile__button"
-              disabled={!isValid || !dirty}
+              disabled={!isValid || !dirty || isSubmitting}
               onClick={handleSubmit}
               type="submit"
             >Редактировать</button>

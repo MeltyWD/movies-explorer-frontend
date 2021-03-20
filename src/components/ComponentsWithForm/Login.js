@@ -4,6 +4,8 @@ import './form.css';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import mainApi from '../../utils/MainApi';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Login(props) {
   const validationSchema = yup.object().shape({
@@ -15,6 +17,8 @@ function Login(props) {
       .min(8, 'Минимум 8 символов'),
   });
 
+  const { setCurrentUser } = React.useContext(CurrentUserContext);
+
   return (
     <section className="auth">
       <Link to="/" className="auth__link-logo"><img className="auth__logo" src={props.logo} alt="logo" /></Link>
@@ -25,13 +29,31 @@ function Login(props) {
           password: '',
         }}
         validateOnBlur
-        onSubmit={(values) => {
-          props.login(values);
+        onSubmit={(values, onSubmitProps) => {
+          mainApi.authorize(values)
+            .then((res) => {
+              localStorage.setItem('logginIn', 'true');
+              setCurrentUser({
+                name: res.name,
+                email: res.email,
+              });
+              props.login();
+            })
+            .catch((err) => props.onFail(err))
+            .finally(() => onSubmitProps.setSubmitting(false));
         } }
         validationSchema={validationSchema}
       >
         {({
-          values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty,
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          isValid,
+          handleSubmit,
+          dirty,
+          isSubmitting,
         }) => (
           <form className="form">
             <label
@@ -47,6 +69,7 @@ function Login(props) {
               value={values.email}
               id="email"
               placeholder="Введите e-mail"
+              disabled={isSubmitting}
             />
             {
               <p className={`form__error
@@ -68,6 +91,7 @@ function Login(props) {
               value={values.password}
               id="password"
               placeholder="Введите пароль"
+              disabled={isSubmitting}
             />
             {
               <p className={`form__error
@@ -78,7 +102,7 @@ function Login(props) {
             }
             <button
               className="form__button"
-              disabled={!isValid || !dirty}
+              disabled={!isValid || !dirty || isSubmitting}
               onClick={handleSubmit}
               type="submit"
             >Войти</button>

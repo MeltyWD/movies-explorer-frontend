@@ -81,11 +81,16 @@
   margin-top: auto;
   background-color: transparent;
   border: none;
-  color: #fff;
+  color: #4285F4;
   font-weight: normal;
   font-size: 1.015625vw;
   line-height: 123%;
   cursor: pointer;
+}
+
+.profile__button:disabled {
+  cursor: auto;
+  color: #fff;
 }
 
 .profile__logout {

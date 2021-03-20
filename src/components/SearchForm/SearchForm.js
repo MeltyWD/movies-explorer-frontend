@@ -17,8 +17,13 @@ function SearchForm(props) {
   function handleSearchInput(e) {
     setSearchValue(e.target.value);
   }
+
+  function handleCheckbox() {
+    props.setChecked(!props.checked);
+  }
+
   useEffect(() => {
-    props.search(searchValue);
+    props.searchFilter(searchValue);
   }, [searchValue]);
 
   const inputClass = classnames({
@@ -37,7 +42,7 @@ function SearchForm(props) {
       </div>
       <div className="checkbox">
         <div className="checkbox__container">
-          <input id="switch" type="checkbox" className="checkbox__input" defaultChecked />
+          <input id="switch" type="checkbox" onChange={handleCheckbox} className="checkbox__input" checked={props.checked} />
           <label htmlFor="switch" className="checkbox__label">Switch</label>
         </div>
         <label htmlFor="switch" className="checkbox__text">Короткометражки</label>

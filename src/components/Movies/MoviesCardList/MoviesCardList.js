@@ -1,24 +1,12 @@
 import React from 'react';
 import './movies__card-list.css';
 import classnames from 'classnames';
+import { gridCount, elemCount } from '../../../utils/constants';
 
 function MoviesCardList(props) {
   const Component = props.component;
-  function countGridElement() {
-    let count = 4;
-    if (window.innerWidth > 1280) {
-      count = 4;
-    } else {
-      count = Math.floor((window.innerWidth * 0.890625) / 270);
-    }
-    return count;
-  }
 
-  const gridCount = countGridElement();
-
-  const [currentMovieCount, setCurrentMovieCount] = React.useState(
-    gridCount * 4 === 4 ? 5 : gridCount * 4,
-  );
+  const [currentMovieCount, setCurrentMovieCount] = React.useState(elemCount);
 
   function addMovie() {
     setCurrentMovieCount(currentMovieCount + (gridCount === 1 ? 2 : gridCount));
@@ -32,10 +20,10 @@ function MoviesCardList(props) {
   return (
     <>
       <div className="movies__card-list">
-        {props.movieList.slice(0, currentMovieCount).map((movie, index) => (
+        {props.movieList.slice(0, currentMovieCount).map((movie) => (
             <Component
               data={movie}
-              key={index}
+              key={movie.id || movie.movieId}
             />
         ))}
       </div>

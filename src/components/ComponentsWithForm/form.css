@@ -26,7 +26,7 @@
   transition: background-color 5000s;
 }
 
-input::placeholder {
+.form__input::placeholder {
   color: #8B8B8B;
 }
 
@@ -58,6 +58,10 @@ input::placeholder {
   font-weight: normal;
   font-size: 1.09375vw;
   line-height: 121%;
+}
+
+.form__button:disabled {
+  background: #8B8B8B;
 }
 
 @media (max-width: 800px) {

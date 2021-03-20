@@ -1,6 +1,6 @@
 .movies__card-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(21.09375vw, 1fr));
+  grid-template-columns: repeat(4, minmax(21.09375vw, 1fr));
   grid-template-rows: max-content;
   gap: 2.96875vw 1.5625vw;
   padding-top: 5.46875vw;
@@ -27,7 +27,7 @@
 
 @media (max-width: 1279px) {
   .movies__card-list {
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   }
 }
 

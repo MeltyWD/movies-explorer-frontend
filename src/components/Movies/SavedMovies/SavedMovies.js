@@ -2,27 +2,54 @@ import React from 'react';
 import '../movies.css';
 import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import movieList from '../../../utils/Movies.json';
 import SavedMoviesCard from '../MoviesCard/SavedMoviesCard';
+import MovieContext from '../../../contexts/MovieContext';
+import Preloader from '../../Preloader/Preloader';
+import { shortFilmDuration } from '../../../utils/constants';
 
 function SavedMovies() {
-  const [currentMovieList, setCurrentMovieList] = React.useState(movieList);
+  const { savedMovieList, initializationSavedMovie } = React.useContext(MovieContext);
+  const [checked, setChecked] = React.useState(true);
+  const [currentMovieList, setCurrentMovieList] = React.useState(savedMovieList);
+
   function searchFilter(searchText) {
-    setCurrentMovieList(movieList.filter((movie) => movie
+    setCurrentMovieList(savedMovieList.filter((movie) => movie
       .nameRU.toUpperCase()
       .indexOf(searchText.toUpperCase()) > -1));
+  }
+
+  React.useEffect(() => {
+    setCurrentMovieList(savedMovieList);
+  }, [savedMovieList]);
+
+  function checkboxFilter(movies) {
+    if (!checked) {
+      return movies.filter((movie) => movie.duration > shortFilmDuration);
+    }
+    return movies;
   }
 
   return (
     <section className="movies">
       <SearchForm
         title="Сохранённые фильмы"
-        search={searchFilter}
+        searchFilter={searchFilter}
+        checked={checked}
+        setChecked={setChecked}
       />
-      <MoviesCardList
-        movieList={currentMovieList}
-        component={SavedMoviesCard}
-      />
+      {
+        !initializationSavedMovie
+          ? <Preloader />
+          : <>{
+            currentMovieList.length === 0
+              ? <p className="movies__notfound">Ничего не найдено</p>
+              : <MoviesCardList
+              movieList={checkboxFilter(currentMovieList)}
+              component={SavedMoviesCard}
+            />
+          }
+          </>
+      }
     </section>
   );
 }
